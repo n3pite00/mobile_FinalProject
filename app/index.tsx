@@ -1,17 +1,19 @@
-import { Button, Text, View } from "react-native";
+import { Text, View, Pressable } from "react-native";
+import { Link } from 'expo-router';
+import styles from '../styles/index'
+
+
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Location</Text>
-      <Button title="Add new location"></Button>
-
+    <View>
+        <Link href="./AddLocation" >
+          <Pressable style={styles.PressableButton}>
+            <Text>Add New Location</Text>
+          </Pressable>
+        </Link>
+        
+      <Text style={styles.info}>Oulu</Text>
     </View>
   );
 }
