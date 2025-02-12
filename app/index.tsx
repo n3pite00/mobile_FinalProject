@@ -3,8 +3,7 @@ import { Link } from 'expo-router';
 import styles from '../styles/index'
 
 
-
-export default function Index() {
+export default function Locations() {
   return (
     <View>
         <Link href="./AddLocation" >
