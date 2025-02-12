@@ -1,35 +1,56 @@
-import { Button, Text, View, TextInput} from "react-native";
-import { Rating } from 'react-native-ratings';
+import { Button, Text, View, TextInput, } from "react-native";
+import { AirbnbRating, Rating } from 'react-native-ratings';
 import styles from "../styles/LocationAdd"
-import AddLocation from '../components/LocationAdd';
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function AddNewLocation() {
-
   
+  const [text, setText] = useState('')
+  const [desc, setDesc] = useState('')
+  const [rating, setRating] = useState(0)
 
+  const save = async() => {
+    try {
+
+      await AsyncStorage.setItem("InputText", text)
+      await AsyncStorage.setItem("InputDesc", desc)
+      
+
+      console.log("Items saved")
+
+    } catch (err) {
+
+      alert(err)
+    }
+  }
 
   return (
     <View>
       <TextInput 
         style={styles.input}
+        onChangeText={setText}
+        value={text}
         placeholder="Name"
       />
       
       <TextInput 
         style={styles.input}
+        onChangeText={setDesc}
+        value={desc}
         placeholder="Description"
       />
 
-      <Rating 
-        type="star"
-        ratingCount={5}
-        imageSize={40}
+      <AirbnbRating
+        count={5}
+        defaultRating={5}
+        size={40}
       />
 
       <Button
-        
         title="Add new location"
+        onPress={save}
        />
     </View>
   );
