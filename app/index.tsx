@@ -63,6 +63,12 @@ export default function Locations() {
         size={40}
         isDisabled
       />
+
+      <Link href="./MapView" >
+          <Pressable >
+            <Text>Map Location</Text>
+          </Pressable>
+      </Link>
       
     </View>
   );
