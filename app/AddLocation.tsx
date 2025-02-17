@@ -1,5 +1,5 @@
 import { Button, Text, View, TextInput, } from "react-native";
-import { AirbnbRating, Rating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import styles from "../styles/LocationAdd"
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,16 +9,17 @@ export default function AddNewLocation() {
   
   const [text, setText] = useState('')
   const [desc, setDesc] = useState('')
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState(5)
 
   const save = async() => {
     try {
 
       await AsyncStorage.setItem("InputText", text)
       await AsyncStorage.setItem("InputDesc", desc)
+      await AsyncStorage.setItem("InputRating", rating.toString())
       
 
-      console.log("Items saved")
+      alert("Items saved")
 
     } catch (err) {
 
@@ -46,6 +47,7 @@ export default function AddNewLocation() {
         count={5}
         defaultRating={5}
         size={40}
+        onFinishRating={setRating}
       />
 
       <Button
