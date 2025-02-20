@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "styles/Mapstyling.jsx", "styles/LocationAdd.jsx", "styles/index.jsx", "app/_layout.jsx", "app/AddLocation.jsx", "app/index.jsx", "app/MapView.jsx", "components/LoadComponent.jsx"  ]
 }

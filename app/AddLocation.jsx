@@ -13,13 +13,21 @@ export default function AddNewLocation() {
 
   const save = async() => {
     try {
+      let UpdateLocations = await AsyncStorage.getItem("InputLocation");
+      let ArrayLocations = UpdateLocations ? JSON.parse(UpdateLocations) : [];
 
-      await AsyncStorage.setItem("InputText", text)
-      await AsyncStorage.setItem("InputDesc", desc)
-      await AsyncStorage.setItem("InputRating", rating.toString())
+      const newLocations = {
+        name: text,
+        description: desc,
+        rating: rating
+      }
+      
+      ArrayLocations.push(newLocations)
+
+      await AsyncStorage.setItem("InputLocation", JSON.stringify(ArrayLocations))
       
 
-      alert("Items saved")
+      alert("Location saved")
 
     } catch (err) {
 

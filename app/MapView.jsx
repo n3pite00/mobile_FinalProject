@@ -4,10 +4,12 @@ import { View } from 'react-native';
 import styles from "../styles/Mapstyling"
 
 export default function ShowMap() {
+
+  
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} />
     </View>
   );
 }
-
