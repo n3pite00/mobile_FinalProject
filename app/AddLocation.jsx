@@ -2,7 +2,8 @@ import { Button, Text, View, TextInput, } from "react-native";
 import { AirbnbRating } from 'react-native-ratings';
 import styles from "../styles/LocationAdd"
 import { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addDoc, collection } from "firebase/firestore";
+import { db, LOCATIONS_REF } from '../firebase/Config';
 
 
 export default function AddNewLocation() {
@@ -11,21 +12,14 @@ export default function AddNewLocation() {
   const [desc, setDesc] = useState('')
   const [rating, setRating] = useState(5)
 
+  const LocationCollection = collection(db, LOCATIONS_REF)
+
   const save = async() => {
     try {
-      let UpdateLocations = await AsyncStorage.getItem("InputLocation");
-      let ArrayLocations = UpdateLocations ? JSON.parse(UpdateLocations) : [];
-
-      const newLocations = {
-        name: text,
+      await addDoc(LocationCollection, 
+        {name:  text, 
         description: desc,
-        rating: rating
-      }
-      
-      ArrayLocations.push(newLocations)
-
-      await AsyncStorage.setItem("InputLocation", JSON.stringify(ArrayLocations))
-      
+        rating: rating})
 
       alert("Location saved")
 

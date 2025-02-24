@@ -1,39 +1,36 @@
 import { Text, View, Pressable } from "react-native";
 import { Link } from 'expo-router';
 import styles from '../styles/index'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AirbnbRating } from 'react-native-ratings';
-
-
+import { db, LOCATIONS_REF } from '../firebase/Config';
+import { collection, query, onSnapshot } from 'firebase/firestore'
 
 
 export default function Locations() {
 
   const [Location, setLocation] = useState([])
 
-  const load = async() => {
-    try {
-      let WantedLocation = await AsyncStorage.getItem("InputLocation")
+  const LocationCollection = query(collection(db, LOCATIONS_REF))
 
-      if (WantedLocation !== null) {
-        setLocation(JSON.parse(WantedLocation))
-      } else {
-        setLocation([])
-      }
-
-    } catch (err) {
-
-      alert(err)
+  useEffect(() => {
+    const getLocationList = async() => {
+      try {
+        onSnapshot(LocationCollection, querySnapshot => {
+          const LocationsList = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          setLocation(LocationsList)
+        })
+      } catch (err) {
+        alert("error")
     }
-
   }
 
-  useEffect(
-    useCallback(() => {
-      load()
-    }, [])
-  )
+  
+  getLocationList()
+  }, []);
 
   
 
@@ -45,11 +42,11 @@ export default function Locations() {
           </Pressable>
       </Link>
 
-      {Location.map((Location, index) =>
-      <View style={styles.info} key={index}>
+      {Location.map((Locations) => (
+      <View style={styles.info}>
         <Text>
-          {Location.name} {"\n"}
-          {Location.description}
+          {Locations.name} {"\n"}
+          {Locations.description}
         </Text>
 
         <Link href="./MapView" >
@@ -60,12 +57,12 @@ export default function Locations() {
 
         <AirbnbRating
           showRating
-          defaultRating={parseFloat(Location.rating)}
+          defaultRating={Locations.rating}
           size={40}
           isDisabled
         />
       </View>
-      )} 
+      ))} 
 
     </View>
   );
