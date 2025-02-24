@@ -2,7 +2,7 @@ import { Text, View, Pressable } from "react-native";
 import { Link } from 'expo-router';
 import styles from '../styles/index'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AirbnbRating } from 'react-native-ratings';
 
 
@@ -29,9 +29,13 @@ export default function Locations() {
 
   }
 
-  useEffect(() => {
-    load()
-  }, [])
+  useEffect(
+    useCallback(() => {
+      load()
+    }, [])
+  )
+
+  
 
   return (
     <View>
@@ -41,12 +45,18 @@ export default function Locations() {
           </Pressable>
       </Link>
 
-
       {Location.map((Location, index) =>
-      <View key={index}>
-        <Text style={styles.info}>{Location.name} {"\n"}
+      <View style={styles.info} key={index}>
+        <Text>
+          {Location.name} {"\n"}
           {Location.description}
-          </Text>
+        </Text>
+
+        <Link href="./MapView" >
+          <Pressable >
+            <Text>Map Location</Text>
+          </Pressable>
+        </Link>
 
         <AirbnbRating
           showRating
@@ -55,13 +65,8 @@ export default function Locations() {
           isDisabled
         />
       </View>
-      )}
-      <Link href="./MapView" >
-          <Pressable >
-            <Text>Map Location</Text>
-          </Pressable>
-      </Link>
-      
+      )} 
+
     </View>
   );
 }
