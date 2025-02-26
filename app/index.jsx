@@ -1,15 +1,18 @@
 import { Text, View, Pressable } from "react-native";
-import { Link } from 'expo-router';
+import { Link, router} from 'expo-router';
 import styles from '../styles/index'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { AirbnbRating } from 'react-native-ratings';
 import { db, LOCATIONS_REF } from '../firebase/Config';
 import { collection, query, onSnapshot } from 'firebase/firestore'
 
 
+
 export default function Locations() {
 
+  
   const [Location, setLocation] = useState([])
+  
 
   const LocationCollection = query(collection(db, LOCATIONS_REF))
 
@@ -33,7 +36,6 @@ export default function Locations() {
   }, []);
 
   
-
   return (
     <View>
       <Link href="./AddLocation" >
@@ -49,11 +51,11 @@ export default function Locations() {
           {Locations.description}
         </Text>
 
-        <Link href="./MapView" >
-          <Pressable >
+        <Link href={{pathname: "./MapView", 
+          params: {name: Locations.name}}}>
             <Text>Map Location</Text>
-          </Pressable>
         </Link>
+        
 
         <AirbnbRating
           showRating
@@ -63,7 +65,6 @@ export default function Locations() {
         />
       </View>
       ))} 
-
     </View>
   );
 }
