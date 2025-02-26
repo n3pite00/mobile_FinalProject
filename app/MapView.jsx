@@ -58,8 +58,9 @@ export default function ShowMap() {
     <View style={styles.container}>
       <MapView 
       style={styles.map} 
-      region={region} 
-      />
+      region={region}
+      >
+      </MapView>
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import { Text, View, Pressable } from "react-native";
+import { ScrollView, Text, View, Pressable } from "react-native";
 import { Link, router} from 'expo-router';
 import styles from '../styles/index'
 import { useEffect, useState, useContext } from "react";
@@ -37,34 +37,44 @@ export default function Locations() {
 
   
   return (
-    <View>
-      <Link href="./AddLocation" >
-          <Pressable >
-            <Text>Add New Location</Text>
-          </Pressable>
+    <ScrollView>
+      <Link 
+      style={styles.PressableButton} 
+      href={{pathname: "./AddLocation"}} >
+
+        <Text style={styles.ButtonText}>
+        Add New Location</Text>
       </Link>
 
       {Location.map((Locations) => (
       <View style={styles.info}>
-        <Text>
-          {Locations.name} {"\n"}
-          {Locations.description}
+
+        <Text 
+          style={styles.header}>
+          {Locations.name}
         </Text>
 
-        <Link href={{pathname: "./MapView", 
-          params: {name: Locations.name}}}>
-            <Text>Map Location</Text>
-        </Link>
-        
+        <Text 
+          style={styles.description}>
+          {Locations.description}
+        </Text>
 
         <AirbnbRating
           showRating
           defaultRating={Locations.rating}
-          size={40}
+          reviewSize={30}
+          size={30}
           isDisabled
         />
+
+        <Link 
+          style={styles.PressableButton} 
+          href={{pathname: "./MapView", 
+          params: {name: Locations.name}}}>
+          <Text style={styles.ButtonText}>Map Location</Text>
+        </Link>
       </View>
       ))} 
-    </View>
+    </ScrollView>
   );
 }

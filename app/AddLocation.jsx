@@ -30,7 +30,7 @@ export default function AddNewLocation() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput 
         style={styles.input}
         onChangeText={setText}
@@ -55,6 +55,7 @@ export default function AddNewLocation() {
       <Button
         title="Add new location"
         onPress={save}
+        color="#b36d6f"
        />
     </View>
   );
