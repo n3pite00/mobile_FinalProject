@@ -1,4 +1,4 @@
-import { Button, Text, View, TextInput, } from "react-native";
+import { Button, View, TextInput, } from "react-native";
 import { AirbnbRating } from 'react-native-ratings';
 import styles from "../styles/LocationAdd"
 import { useState } from 'react';

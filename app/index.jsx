@@ -1,80 +1,52 @@
-import { Button, ScrollView, Text, View } from "react-native";
-import styles from '../styles/index'
-import { useEffect, useState } from "react";
-import { AirbnbRating } from 'react-native-ratings';
-import { db, LOCATIONS_REF } from '../firebase/Config';
-import { collection, query, onSnapshot } from 'firebase/firestore'
+import { Button, View, TextInput } from "react-native";
+import { useState } from "react";
+import styles from "../styles/LocationAdd"
+import { auth } from '../firebase/Config';
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
-
-
-export default function Locations() {
-
+export default function AddNewLocation() {
   
-  const [Location, setLocation] = useState([])
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const Navigation = useNavigation()
-  
 
-  const LocationCollection = query(collection(db, LOCATIONS_REF))
+  const signIn = async() => {
+    try {
 
-  useEffect(() => {
-    const getLocationList = async() => {
-      try {
-        onSnapshot(LocationCollection, querySnapshot => {
-          const LocationsList = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-          setLocation(LocationsList)
-        })
-      } catch (err) {
-        alert("error")
-    }
+      await signInWithEmailAndPassword(auth, email, password)
+      console.log("Login was successful!")
+      Navigation.navigate("Locations")
+
+      } catch (err){
+          alert("Login wasn't successful.")
+      }
   }
-
   
-  getLocationList()
-  }, []);
 
-  
   return (
-    <ScrollView>
-      <Button title="Add new Location" 
-      onPress={() => Navigation.navigate("AddLocation")} 
-      color="#b36d6f" />
+      <View style={styles.container}>
+      <TextInput 
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Email"
+          keyboardType="email-address"
+      />
+      
+      <TextInput 
+          style={styles.input}
+          onChangeText={setPassword}
+          value={password}
+          placeholder="Password"
+      />
 
-      {Location.map((Locations) => (
-      <View style={styles.info}>
 
-        <Text 
-          style={styles.header}>
-          {Locations.name}
-        </Text>
-
-        <Text 
-          style={styles.description}>
-          {Locations.description}
-        </Text>
-
-        <AirbnbRating
-          showRating
-          defaultRating={Locations.rating}
-          reviewSize={30}
-          size={30}
-          isDisabled
-        />
-
-        <Button
-          title="Map Location"
-          onPress={() => Navigation.navigate("MapView", {
-            name: Locations.name
-          })} 
+      <Button
+          title="Sign In"
+          onPress={signIn}
           color="#b36d6f"
-        />
+      />
       </View>
-      ))} 
-    </ScrollView>
-  );
+);
 }
-
-
