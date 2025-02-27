@@ -2,8 +2,8 @@ import { Button, ScrollView, Text, View } from "react-native";
 import styles from '../styles/index'
 import { useEffect, useState } from "react";
 import { AirbnbRating } from 'react-native-ratings';
-import { db, LOCATIONS_REF } from '../firebase/Config';
-import { collection, query, onSnapshot } from 'firebase/firestore'
+import { db, LOCATIONS_REF, auth } from '../firebase/Config';
+import { collection, query, onSnapshot, where } from 'firebase/firestore'
 import { useNavigation } from "@react-navigation/native";
 
 
@@ -13,9 +13,12 @@ export default function Locations() {
   
   const [Location, setLocation] = useState([])
   const Navigation = useNavigation()
+  const user = auth.currentUser;
+  const uid = user.uid
   
 
-  const LocationCollection = query(collection(db, LOCATIONS_REF))
+  const LocationCollection = query(collection(db, LOCATIONS_REF), 
+  where("userID", "==", uid))
 
   useEffect(() => {
     const getLocationList = async() => {

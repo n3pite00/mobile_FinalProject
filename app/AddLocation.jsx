@@ -3,7 +3,7 @@ import { AirbnbRating } from 'react-native-ratings';
 import styles from "../styles/LocationAdd"
 import { useState } from 'react';
 import { addDoc, collection } from "firebase/firestore";
-import { db, LOCATIONS_REF } from '../firebase/Config';
+import { db, LOCATIONS_REF, auth } from '../firebase/Config';
 
 
 export default function AddNewLocation() {
@@ -11,6 +11,8 @@ export default function AddNewLocation() {
   const [text, setText] = useState('')
   const [desc, setDesc] = useState('')
   const [rating, setRating] = useState(5)
+  const user = auth.currentUser;
+  const uid = user.uid
 
   const LocationCollection = collection(db, LOCATIONS_REF)
 
@@ -19,7 +21,8 @@ export default function AddNewLocation() {
       await addDoc(LocationCollection, 
         {name:  text, 
         description: desc,
-        rating: rating})
+        rating: rating,
+        userID: uid})
 
       alert("Location saved")
 
