@@ -32,8 +32,8 @@ export default function ShowMap() {
   useEffect(() => {
     const getLocationName = async() => {
       try {
-        const parsedLocation = JSON.stringify({name})
-        const GeoCodedLocation = await Location.geocodeAsync(parsedLocation)
+        const StringifiedLocation = JSON.stringify({name})
+        const GeoCodedLocation = await Location.geocodeAsync(StringifiedLocation)
 
         const WantedLocation = GeoCodedLocation[0]
 

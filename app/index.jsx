@@ -1,10 +1,10 @@
-import { ScrollView, Text, View, Pressable } from "react-native";
-import { Link, router} from 'expo-router';
+import { Button, ScrollView, Text, View } from "react-native";
 import styles from '../styles/index'
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { AirbnbRating } from 'react-native-ratings';
 import { db, LOCATIONS_REF } from '../firebase/Config';
 import { collection, query, onSnapshot } from 'firebase/firestore'
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -12,6 +12,7 @@ export default function Locations() {
 
   
   const [Location, setLocation] = useState([])
+  const Navigation = useNavigation()
   
 
   const LocationCollection = query(collection(db, LOCATIONS_REF))
@@ -38,13 +39,9 @@ export default function Locations() {
   
   return (
     <ScrollView>
-      <Link 
-      style={styles.PressableButton} 
-      href={{pathname: "./AddLocation"}} >
-
-        <Text style={styles.ButtonText}>
-        Add New Location</Text>
-      </Link>
+      <Button title="Add new Location" 
+      onPress={() => Navigation.navigate("AddLocation")} 
+      color="#b36d6f" />
 
       {Location.map((Locations) => (
       <View style={styles.info}>
@@ -67,14 +64,17 @@ export default function Locations() {
           isDisabled
         />
 
-        <Link 
-          style={styles.PressableButton} 
-          href={{pathname: "./MapView", 
-          params: {name: Locations.name}}}>
-          <Text style={styles.ButtonText}>Map Location</Text>
-        </Link>
+        <Button
+          title="Map Location"
+          onPress={() => Navigation.navigate("MapView", {
+            name: Locations.name
+          })} 
+          color="#b36d6f"
+        />
       </View>
       ))} 
     </ScrollView>
   );
 }
+
+
