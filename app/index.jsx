@@ -9,14 +9,14 @@ export default function AddNewLocation() {
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const Navigation = useNavigation()
+  const navigation = useNavigation()
 
   const signIn = async() => {
     try {
 
       await signInWithEmailAndPassword(auth, email, password)
       console.log("Login was successful!")
-      Navigation.navigate("Locations")
+      navigation.navigate("Locations")
 
       } catch (err){
           alert("Login wasn't successful.")
@@ -39,6 +39,7 @@ export default function AddNewLocation() {
           onChangeText={setPassword}
           value={password}
           placeholder="Password"
+          secureTextEntry={true}
       />
 
 

@@ -47,7 +47,7 @@ export default function Locations() {
       color="#b36d6f" />
 
       {Location.map((Locations) => (
-      <View style={styles.info}>
+      <View key={Locations.id} style={styles.info}>
 
         <Text 
           style={styles.header}>
